@@ -1,0 +1,25 @@
+<form method="POST" action="{{ action }}">
+    <div class="form-group">
+        <label for="name">Nombre del proveedor:</label>
+        <input type="text" class="form-control" id="name" name="name" aria-describedby="name" placeholder="" value="{{ vendor.name }}"><br>
+
+        <label for="email">Correo electrónico:</label>
+        <input type="email" class="form-control" id="email" name="email" aria-describedby="email" placeholder="" value="{{ vendor.email }}"><br>
+
+        <label for="phone">Número de teléfono:</label>
+        <input type="tel" class="form-control" id="phone" name="phone" aria-describedby="phone" placeholder="" value="{{ vendor.phone }}"><br>
+
+
+        <label for="type">Tipo de proveedor:</label>
+        <select name="type" id="type">
+            <option value="Hotel">Hotel</option>
+            <option value="Pista">Pista</option>
+            <option value="Complemento">Complemento</option>
+        </select><br><br>
+
+        <label for="active">Activo:</label>
+        <input type="checkbox" id="active" name="active" value=1><br>
+    </div>
+
+    <button type="submit" class="btn btn-primary">{{ etiqueta_btn_enviar|default('Guardar') }}</button>
+</form>

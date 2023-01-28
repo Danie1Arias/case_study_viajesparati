@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Añadir proveedor{% endblock %}
+
+{% block body %}
+    <h1>Añadir proveedor</h1>
+    {% include 'vendor/_form.html.twig' with {'action': path('app_add_vendor')} %}
+{% endblock %}

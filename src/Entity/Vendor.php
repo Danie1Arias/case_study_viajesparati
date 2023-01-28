@@ -20,8 +20,8 @@ class Vendor
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    #[ORM\Column]
-    private ?int $phone_number = null;
+    #[ORM\Column(length: 255)]
+    private ?string $phone = null;
 
     #[ORM\Column(length: 255)]
     private ?string $type = null;
@@ -64,14 +64,14 @@ class Vendor
         return $this;
     }
 
-    public function getPhoneNumber(): ?int
+    public function getPhone(): ?string
     {
-        return $this->phone_number;
+        return $this->phone;
     }
 
-    public function setPhoneNumber(int $phone_number): self
+    public function setPhone(string $phone): self
     {
-        $this->phone_number = $phone_number;
+        $this->phone = $phone;
 
         return $this;
     }
