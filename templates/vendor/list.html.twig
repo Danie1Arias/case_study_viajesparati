@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Listado de proveedores{% endblock %}
+
+{% block body %}
+    <h1>Listado de proveedores</h1>
+    {% include 'commons/_notifications.html.twig' %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Correo electrónico</th>
+            <th scope="col">Número de teléfono</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Activo</th>
+            <th scope="col">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for index, vendor in vendors %}
+            <tr>
+                <th scope="row">{{ index + 1 }}</th>
+                <td>{{ vendor.name }}</td>
+                <td>{{ vendor.email }}</td>
+               <td>{{ vendor.phone}}</td>
+                <td>{{ vendor.type }}</td>
+                <td>{{ vendor.active }}</td>
+                <td>
+                    <a href="{{ path('app_add_vendor', {'id': vendor.id}) }}">editar</a>
+                    {# <a href="{{ path('app_eliminar_tarea_servicio', {'id': tarea.id}) }}">eliminar</a> #}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <th colspan="3" scope="row">No se han encontrado resultados</th>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
