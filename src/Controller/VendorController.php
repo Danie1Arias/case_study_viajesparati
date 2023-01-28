@@ -15,4 +15,12 @@ class VendorController extends AbstractController
             'controller_name' => 'VendorController',
         ]);
     }
+
+    #[Route('/vendor/add', name: 'app_add_vendor')]
+    public function add(): Response
+    {
+        return $this->render('vendor/index.html.twig', [
+            'controller_name' => 'VendorController',
+        ]);
+    }
 }
