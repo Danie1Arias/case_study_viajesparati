@@ -36,27 +36,27 @@ class VendorController extends AbstractController
 
         if (null !== $name && null !== $email && null !== $phone && null !== $type){
 
-                $vendor->setName($name);
-                $vendor->setEmail($email);
-                $vendor->setPhone($phone);
-                $vendor->setType($type);
-                $vendor->setActive($active);
-                $vendor->setStartDate($start_date);
-                $vendor->setUpdateDate($update_date);
+            $vendor->setName($name);
+            $vendor->setEmail($email);
+            $vendor->setPhone($phone);
+            $vendor->setType($type);
+            $vendor->setActive($active);
+            $vendor->setStartDate($start_date);
+            $vendor->setUpdateDate($update_date);
 
-                $errors = $vendorManager->validate($vendor);
+            $errors = $vendorManager->validate($vendor);
 
-                if (empty($errors)){
-                    $vendorManager->create($vendor);
-                    $this->addFlash('success', "Proveedor creado correctamente");
+            if (empty($errors)){
+                $vendorManager->create($vendor);
+                $this->addFlash('success', "Proveedor creado correctamente");
 
-                    return $this->redirectToRoute('app_list_vendor');
+                return $this->redirectToRoute('app_list_vendor');
 
-                } else {
-                    foreach ($errors as $error){
-                        $this->addFlash('warning', $error);
-                    }
+            } else {
+                foreach ($errors as $error){
+                    $this->addFlash('warning', $error);
                 }
+            }
 
         }
         return $this->render('vendor/add.html.twig', [
@@ -65,7 +65,7 @@ class VendorController extends AbstractController
     }
 
     #[Route('/vendor/edit/{id}', name: 'app_edit_vendor')]
-    public function edit(Vendor $vendor, Request $request, ManagerRegistry $doctrine): Response
+    public function edit(Vendor $vendor, VendorManager $vendorManager, Request $request): Response
     {
         $name = $request->request->get('name', null);
         $email = $request->request->get('email', null);
@@ -75,24 +75,27 @@ class VendorController extends AbstractController
 
         if (null !== $name && null !== $email && null !== $phone && null !== $type){
 
-            if(!empty($name) && !empty($email) && !empty($phone) && !empty($type)){
-                $em = $doctrine->getManager();
+            $vendor->setName($name);
+            $vendor->setEmail($email);
+            $vendor->setPhone($phone);
+            $vendor->setType($type);
+            $vendor->setActive($active);
+            $vendor->setUpdateDate(new \DateTime());
 
-                $vendor->setName($name);
-                $vendor->setEmail($email);
-                $vendor->setPhone($phone);
-                $vendor->setType($type);
-                $vendor->setActive($active);
-                $vendor->setUpdateDate(new \DateTime());
+            $errors = $vendorManager->validate($vendor);
 
-                $em->flush();
+            if (empty($errors)){
+                $vendorManager->edit($vendor);
                 $this->addFlash('success', "Proveedor editado correctamente");
 
                 return $this->redirectToRoute('app_list_vendor');
 
             } else {
-                $this->addFlash('warning', "Todos los campos son obligatorios");
+                foreach ($errors as $error){
+                    $this->addFlash('warning', $error);
+                }
             }
+
         }
         return $this->render('vendor/edit.html.twig', [
             'vendor' => $vendor,
