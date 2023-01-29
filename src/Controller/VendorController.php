@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Vendor;
 use App\Repository\VendorRepository;
+use App\Services\VendorManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,9 +23,8 @@ class VendorController extends AbstractController
     }
 
     #[Route('/vendor/add', name: 'app_add_vendor')]
-    public function add(Request $request, ManagerRegistry $doctrine): Response
+    public function add(VendorManager $vendorManager, Request $request): Response
     {
-        $em = $doctrine->getManager();
         $vendor = new Vendor();
         $name = $request->request->get('name', null);
         $email = $request->request->get('email', null);
@@ -34,12 +34,8 @@ class VendorController extends AbstractController
         $start_date = new \DateTime();
         $update_date = new \DateTime();
 
-        if (null !== $name &&
-            null !== $email &&
-            null !== $phone &&
-            null !== $type){
+        if (null !== $name && null !== $email && null !== $phone && null !== $type){
 
-            if(!empty($name)){
                 $vendor->setName($name);
                 $vendor->setEmail($email);
                 $vendor->setPhone($phone);
@@ -48,17 +44,20 @@ class VendorController extends AbstractController
                 $vendor->setStartDate($start_date);
                 $vendor->setUpdateDate($update_date);
 
-                $em->persist($vendor);
-                $em->flush();
-                $this->addFlash('success', "Proveedor creado correctamente");
+                $errors = $vendorManager->validate($vendor);
 
-                return $this->redirectToRoute('app_list_vendor');
+                if (empty($errors)){
+                    $vendorManager->create($vendor);
+                    $this->addFlash('success', "Proveedor creado correctamente");
 
-            } else {
-                $this->addFlash('warning', "Todos los campos son obligatorios");
+                    return $this->redirectToRoute('app_list_vendor');
 
-                return $this->redirectToRoute('app_add_vendor');
-            }
+                } else {
+                    foreach ($errors as $error){
+                        $this->addFlash('warning', $error);
+                    }
+                }
+
         }
         return $this->render('vendor/add.html.twig', [
             'vendor' => $vendor,
@@ -110,4 +109,5 @@ class VendorController extends AbstractController
 
         return $this->redirectToRoute('app_list_vendor');
     }
+
 }

@@ -3,7 +3,7 @@
 {% block title %}Añadir proveedor{% endblock %}
 
 {% block body %}
-    <h1>Añadir proveedor</h1>
+    <br><h1>Añadir proveedor</h1><br>
     {% include 'commons/_notifications.html.twig' %}
     {% include 'vendor/_form.html.twig' with {'action': path('app_add_vendor')} %}
 {% endblock %}
