@@ -51,10 +51,13 @@ class VendorController extends AbstractController
                 $em->persist($vendor);
                 $em->flush();
                 $this->addFlash('success', "Proveedor creado correctamente");
+
                 return $this->redirectToRoute('app_list_vendor');
+
             } else {
                 $this->addFlash('warning', "Todos los campos son obligatorios");
-                return $this->redirectToRoute('app_list_vendor');
+
+                return $this->redirectToRoute('app_add_vendor');
             }
         }
         return $this->render('vendor/add.html.twig', [
@@ -63,10 +66,37 @@ class VendorController extends AbstractController
     }
 
     #[Route('/vendor/edit/{id}', name: 'app_edit_vendor')]
-    public function edit(int $id): Response
+    public function edit(Vendor $vendor, VendorRepository $vendorRepository, Request $request, ManagerRegistry $doctrine): Response
     {
+        $name = $request->request->get('name', null);
+        $email = $request->request->get('email', null);
+        $phone = $request->request->get('phone', null);
+        $type = $request->request->get('type', null);
+        $active = $request->request->get('active', 0);
+
+        if (null !== $name && null !== $email && null !== $phone && null !== $type){
+
+            if(!empty($name) && !empty($email) && !empty($phone) && !empty($type)){
+                $em = $doctrine->getManager();
+
+                $vendor->setName($name);
+                $vendor->setEmail($email);
+                $vendor->setPhone($phone);
+                $vendor->setType($type);
+                $vendor->setActive($active);
+                $vendor->setUpdateDate(new \DateTime());
+
+                $em->flush();
+                $this->addFlash('success', "Proveedor editado correctamente");
+
+                return $this->redirectToRoute('app_list_vendor');
+
+            } else {
+                $this->addFlash('warning', "Todos los campos son obligatorios");
+            }
+        }
         return $this->render('vendor/edit.html.twig', [
-            'controller_name' => 'VendorController',
+            'vendor' => $vendor,
         ]);
     }
 

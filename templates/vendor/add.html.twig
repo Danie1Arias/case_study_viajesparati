@@ -4,5 +4,6 @@
 
 {% block body %}
     <h1>Añadir proveedor</h1>
+    {% include 'commons/_notifications.html.twig' %}
     {% include 'vendor/_form.html.twig' with {'action': path('app_add_vendor')} %}
 {% endblock %}

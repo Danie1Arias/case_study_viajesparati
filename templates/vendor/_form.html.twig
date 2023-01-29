@@ -9,16 +9,15 @@
         <label for="phone">Número de teléfono:</label>
         <input type="tel" class="form-control" id="phone" name="phone" aria-describedby="phone" placeholder="" value="{{ vendor.phone }}"><br>
 
-
         <label for="type">Tipo de proveedor:</label>
         <select name="type" id="type">
-            <option value="Hotel">Hotel</option>
-            <option value="Pista">Pista</option>
-            <option value="Complemento">Complemento</option>
+            <option value="Hotel" {% if vendor.type == "Hotel" %} selected {% endif %}>Hotel</option>
+            <option value="Pista" {% if vendor.type == "Pista" %} selected {% endif %}>Pista</option>
+            <option value="Complemento" {% if vendor.type == "Complemento" %} selected {% endif %}>Complemento</option>
         </select><br><br>
 
         <label for="active">Activo:</label>
-        <input type="checkbox" id="active" name="active" value=1><br>
+        <input type="checkbox" id="active" name="active" value=1 {% if vendor.active == "1" %} checked {% endif %}><br>
     </div>
 
     <button type="submit" class="btn btn-primary">{{ etiqueta_btn_enviar|default('Guardar') }}</button>

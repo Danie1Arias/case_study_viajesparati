@@ -27,7 +27,7 @@
                 <td>{{ vendor.type }}</td>
                 <td> {% if vendor.active %}Sí{% else %}No{% endif %}</td>
                 <td>
-                    <a href="{{ path('app_add_vendor', {'id': vendor.id}) }}">editar</a>
+                    <a href="{{ path('app_edit_vendor', {'id': vendor.id}) }}">editar</a>
                     {# <a href="{{ path('app_eliminar_tarea_servicio', {'id': tarea.id}) }}">eliminar</a> #}
                 </td>
             </tr>

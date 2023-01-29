@@ -4,4 +4,6 @@
 
 {% block body %}
     <h1>Editar proveedor</h1>
+    {% include 'commons/_notifications.html.twig' %}
+    {% include 'vendor/_form.html.twig' with {'action': path('app_edit_vendor', {'id': vendor.id}), 'etiqueta_btn_enviar': 'Editar'} %}
 {% endblock %}
