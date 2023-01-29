@@ -66,7 +66,7 @@ class VendorController extends AbstractController
     }
 
     #[Route('/vendor/edit/{id}', name: 'app_edit_vendor')]
-    public function edit(Vendor $vendor, VendorRepository $vendorRepository, Request $request, ManagerRegistry $doctrine): Response
+    public function edit(Vendor $vendor, Request $request, ManagerRegistry $doctrine): Response
     {
         $name = $request->request->get('name', null);
         $email = $request->request->get('email', null);
@@ -101,10 +101,13 @@ class VendorController extends AbstractController
     }
 
     #[Route('/vendor/delete/{id}', name: 'app_delete_vendor')]
-    public function delete(int $id): Response
+    public function delete(Vendor $vendor, ManagerRegistry $doctrine): Response
     {
-        return $this->render('vendor/delete.html.twig', [
-            'controller_name' => 'VendorController',
-        ]);
+        $em = $doctrine->getManager();
+        $em->remove($vendor);
+        $em->flush();
+        $this->addFlash('success', "Proveedor eliminado correctamente");
+
+        return $this->redirectToRoute('app_list_vendor');
     }
 }

@@ -3,7 +3,7 @@
 {% block title %}Listado de proveedores{% endblock %}
 
 {% block body %}
-    <h1>Listado de proveedores</h1>
+    <br><h1>Listado de proveedores</h1><br>
     {% include 'commons/_notifications.html.twig' %}
     <table class="table table-striped">
         <thead>
@@ -27,8 +27,8 @@
                 <td>{{ vendor.type }}</td>
                 <td> {% if vendor.active %}Sí{% else %}No{% endif %}</td>
                 <td>
-                    <a href="{{ path('app_edit_vendor', {'id': vendor.id}) }}">editar</a>
-                    {# <a href="{{ path('app_eliminar_tarea_servicio', {'id': tarea.id}) }}">eliminar</a> #}
+                    <a href="{{ path('app_edit_vendor', {'id': vendor.id}) }}">Editar</a>
+                    <a href="{{ path('app_delete_vendor', {'id': vendor.id}) }}">Eliminar</a>
                 </td>
             </tr>
         {% else %}
@@ -38,4 +38,8 @@
         {% endfor %}
         </tbody>
     </table>
+
 {% endblock %}
+
+
+
